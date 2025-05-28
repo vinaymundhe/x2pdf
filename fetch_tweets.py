@@ -18,7 +18,7 @@ def get_user_id(username):
     response.raise_for_status()
     return response.json()['data']['id']
 
-def get_tweets(user_id, max_results=100):
+def get_tweets(user_id, max_results=10):
     url = f"https://api.twitter.com/2/users/{user_id}/tweets"
     headers = create_headers()
     params = {
