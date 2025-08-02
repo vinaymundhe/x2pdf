@@ -18,7 +18,7 @@ def get_user_id(username):
     response.raise_for_status()
     return response.json()['data']['id']
 
-def get_tweets(user_id, max_results=10):
+def get_tweets(user_id, max_results=5):
     url = f"https://api.twitter.com/2/users/{user_id}/tweets"
     headers = create_headers()
     params = {
@@ -34,4 +34,4 @@ if __name__ == "__main__":
     user_id = get_user_id(username)
     tweets = get_tweets(user_id)
     for tweet in tweets:
-        print(f"{tweet['created_at']}: {tweet['text']}\n")
+        print(f"{tweet['created_at']}: \n{tweet['text']}\n")
