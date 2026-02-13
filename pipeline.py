@@ -10,7 +10,7 @@ def categorize(text: str) -> str:
     if any(k in t for k in ["java", "spring", "api", "python", "code", "backend"]):
         return "Software Developement"
     if any(k in t for k in ["ai", "robotics", "LLM", "chatGPT", "gemini", "grok", "AI model"]):
-        return "Software Developement"
+        return "Tech"
     if any(k in t for k in ["invest", "stock", "market", "sip", "nifty","AMD", "NVDA", "tesla", "crypto", "bitcoin", "ethereum"]):
         return "Finance"
     if any(k in t for k in ["discipline", "habit", "consistency", "mindset"]):
