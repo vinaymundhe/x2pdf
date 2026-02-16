@@ -37,11 +37,11 @@ def get_tweets(user_id, max_results=5):
 
     return tweets
 
-if __name__ == "__main__":
-    username = "vinaymundhe_"  # <--- CHANGE THIS to your X handle, no '@'
-    user_id = get_user_id(username)
-    tweets = get_tweets(user_id)
+# if __name__ == "__main__":
+#     username = "vinaymundhe_"  # <--- CHANGE THIS to your X handle, no '@'
+#     user_id = get_user_id(username)
+#     tweets = get_tweets(user_id)
     
-    print("Tweets fetched and saved to tweets.json ✅")
-    for tweet in tweets:
-        print(f"{tweet['created_at']}: \n{tweet['text']}\n")
+#     print("Tweets fetched and saved to tweets.json ✅")
+#     for tweet in tweets:
+#         print(f"{tweet['created_at']}: \n{tweet['text']}\n")

@@ -1,33 +1,16 @@
-import json
-from collections import defaultdict
+from fetch_tweets import get_user_id, get_tweets
+from export_pdf import group, export_pdf
 
-def load_tweets(path="tweets.json"):
-    with open(path, "r", encoding="utf-8") as f:
-        return json.load(f)
+username = "vinaymundhe_"   # change here once
 
-def categorize(text: str) -> str:
-    t = text.lower()
-    if any(k in t for k in ["java", "spring", "api", "python", "code", "backend"]):
-        return "Software Developement"
-    if any(k in t for k in ["ai", "robotics", "LLM", "chatGPT", "gemini", "grok", "AI model"]):
-        return "Tech"
-    if any(k in t for k in ["invest", "stock", "market", "sip", "nifty","AMD", "NVDA", "tesla", "crypto", "bitcoin", "ethereum"]):
-        return "Finance"
-    if any(k in t for k in ["discipline", "habit", "consistency", "mindset"]):
-        return "Life Advice"
-    if any(k in t for k in ["sleep", "focus", "routine", "productivity", "time", "energy", "job", "work"]):
-        return "Productivity"
-    return "Other"
+# 1. Fetch
+user_id = get_user_id(username)
+tweets = get_tweets(user_id)
 
-def group_by_category(tweets):
-    grouped = defaultdict(list)
-    for tw in tweets:
-        cat = categorize(tw["text"])
-        grouped[cat].append(tw)
-    return grouped
+# 2. Group
+grouped = group(tweets)
 
-if __name__ == "__main__":
-    tweets = load_tweets()
-    grouped = group_by_category(tweets)
-    for cat, items in grouped.items():
-        print(cat, "=>", len(items))
+# 3. Export
+export_pdf(grouped, username)
+
+print("Pipeline completed successfully.")

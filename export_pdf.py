@@ -136,7 +136,7 @@ def export_pdf(grouped, out_path="exports/X2PDF.pdf"):
     pdf.output(out_path)
     print("Saved:", out_path)
 
-if __name__ == "__main__":
-    tweets = load_tweets()
-    grouped = group(tweets)
-    export_pdf(grouped)
+# if __name__ == "__main__":
+#     tweets = load_tweets()
+#     grouped = group(tweets)
+#     export_pdf(grouped)
