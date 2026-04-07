@@ -4,6 +4,7 @@ import re
 from collections import defaultdict
 from fpdf import FPDF
 from pathlib import Path
+from openai import OpenAI
 
 def normalize_text(s: str) -> str:
     if not s:
@@ -54,19 +55,30 @@ def load_tweets(path="tweets.json"):
     with open(path, "r", encoding="utf-8") as f:
         return json.load(f)
 
+# def categorize(text: str) -> str:
+#     t = text.lower()
+#     if any(k in t for k in ["java", "spring", "api", "python", "code", "backend"]):
+#         return "Software Development"
+#     if any(k in t for k in ["ai", "robotics", "llm", "chatgpt", "gemini", "grok", "ai model"]):
+#         return "Tech"
+#     if any(k in t for k in ["invest", "stock", "market", "sip", "nifty", "amd", "nvda", "tesla", "crypto", "bitcoin", "ethereum"]):
+#         return "Finance"
+#     if any(k in t for k in ["discipline", "habit", "consistency", "mindset"]):
+#         return "Life Advice"
+#     if any(k in t for k in ["sleep", "focus", "routine", "productivity", "time", "energy", "job", "work"]):
+#         return "Productivity"
+#     return "Other"
+
 def categorize(text: str) -> str:
-    t = text.lower()
-    if any(k in t for k in ["java", "spring", "api", "python", "code", "backend"]):
-        return "Software Development"
-    if any(k in t for k in ["ai", "robotics", "llm", "chatgpt", "gemini", "grok", "ai model"]):
-        return "Tech"
-    if any(k in t for k in ["invest", "stock", "market", "sip", "nifty", "amd", "nvda", "tesla", "crypto", "bitcoin", "ethereum"]):
-        return "Finance"
-    if any(k in t for k in ["discipline", "habit", "consistency", "mindset"]):
-        return "Life Advice"
-    if any(k in t for k in ["sleep", "focus", "routine", "productivity", "time", "energy", "job", "work"]):
-        return "Productivity"
-    return "Other"
+    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+    response = client.chat.completions.create(
+        model="gpt-4-turbo",
+        messages=[{
+            "role": "user",
+            "content": f"Categorize this tweet into ONE of: Software Development, Tech, Finance, Life Advice, Productivity, Other\n\n{text}"
+        }]
+    )
+    return response.choices[0].message.content.strip()
 
 def group(tweets):
     d = defaultdict(list)

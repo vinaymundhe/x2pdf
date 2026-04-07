@@ -16,7 +16,10 @@ def get_user_id(username):
     url = f"https://api.twitter.com/2/users/by/username/{username}"
     headers = create_headers()
     response = requests.get(url, headers=headers)
-    response.raise_for_status()
+    if response.status_code != 200:
+        print(f"Status Code: {response.status_code}")
+        print(f"Response: {response.json()}")
+        response.raise_for_status()
     return response.json()['data']['id']
 
 def get_tweets(user_id, max_results=5):
